@@ -1,0 +1,53 @@
+{
+  "!schema.json": [
+    {
+      "Id": 0,
+      "Key": null,
+      "Mark": "2022-12-24",
+      "Title": "null"
+    }
+  ],
+  "boxes": [
+    {
+      "Id": 101,
+      "Key": "sagas",
+      "Title": "A Saga de Mikhail Tal",
+      "UCases": [
+        [
+          {
+            "FieldType": "u-id",
+            "Id": 1,
+            "Key": "CampSov57",
+            "Method": null
+          },
+          {
+            "FieldType": "unique",
+            "Id": 2,
+            "Key": "CampSov57",
+            "Method": [
+              {
+                "Id": 1,
+                "UniqueFields": [
+                  "Watch"
+                ]
+              },
+              {
+                "Id": 0,
+                "~": null
+              }
+            ]
+          }
+        ]
+      ]
+    }
+  ],
+  "~": [
+    {
+      "Id": -1,
+      "Key": "*",
+      "Mark": null,
+      "Title": "",
+      "UCases": null
+    }
+  ]
+}

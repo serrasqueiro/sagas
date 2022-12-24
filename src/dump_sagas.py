@@ -7,6 +7,7 @@
 
 import sys
 import jdba
+from copy import deepcopy
 
 IO_ENCODING = "ISO-8859-1"
 
@@ -18,6 +19,7 @@ def main():
 
 Commands are:
    a           ASCII based dump
+   b           New 'CampSov57'
    d           Dump 'sagas'
    s           Save database
 """)
@@ -26,7 +28,7 @@ def runner(args, debug=0):
     param = args if args else ["d"]
     what = param[0]
     del param[0]
-    if what not in "ads":
+    if what not in "abds":
         return None
     opts = {}
     return do_this(what, param, opts, debug)
@@ -44,6 +46,8 @@ def do_this(what, param, opts, debug=0):
         res = dbx.save()
         print("dbx.save():", res)
         return dbx.table_names()
+    if what == "b":
+        enter_new_item(dbx, dbx.table("sagas"))
     res = my_script(what, dbx, infos, debug)
     enc = jdba.jcommon.SingletonIO().default_encoding
     if what == "a":
@@ -95,6 +99,16 @@ def iterate_throu(dbx, jix, a_case):
             )
         )
     return res
+
+
+def enter_new_item(dbx, tbl):
+    a_case = "CampSov57"
+    new = deepcopy(tbl.dlist.get_case(a_case)[-1])
+    new["Name"] = "NEW!"
+    print("::: add_to():", new)
+    tbl.add_to(a_case, new)
+    print(tbl)
+    return new
 
 
 def dump_out(fdout, seq):

@@ -4,7 +4,7 @@
     {
       "Id": 107,
       "Name": "Tal vs Antoshin",
-      "UDesc": "Capitulo 7: Mikhail Tal LUTA pela liderança || Cap. 07 Tal x Antoshin, 1957",
+      "UDesc": "Capitulo 7: Mikhail Tal LUTA pela lideran\u00e7a || Cap. 07 Tal x Antoshin, 1957",
       "Watch": "Lu9FojGdGh8"
     },
     {
@@ -12,6 +12,20 @@
       "Name": null,
       "UDesc": null,
       "Watch": null
+    }
+  ],
+  "Markers": [
+    {
+      "FCase": "CampSov57",
+      "FId": 107,
+      "FTime": "2:35",
+      "Id": 101
+    },
+    {
+      "FCase": null,
+      "FId": 0,
+      "FTime": "",
+      "Id": 0
     }
   ],
   "~": null

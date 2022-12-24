@@ -58,7 +58,21 @@ def my_script(what, dbx, infos, debug=0):
     jix = dbx.table("sagas").dlist.index
     if debug > 0:
         print(jix.byname, end="\n" + "=" * 20 + "\n\n")
-    seq = jix.get_ptr("CampSov57")
+    a_case = "CampSov57"
+    res = iterate_throu(dbx, jix, a_case)
+    return res
+
+
+def iterate_throu(dbx, jix, a_case):
+    assert dbx, dbx.name
+    marker_id = {}
+    # Read markers
+    for item in jix.get_ptr("Markers"):
+        fcase = item["FCase"]
+        if fcase and fcase == a_case:
+            marker_id[item["FId"]] = item["FTime"]
+    # Iterate throu
+    seq = jix.get_ptr(a_case)
     res = []
     for item in seq:
         an_id = item["Id"]
@@ -67,6 +81,9 @@ def my_script(what, dbx, infos, debug=0):
         this = item
         assert 10 < len(this["Watch"]) < 20, f"Id={an_id} invalid watch"
         watch = "https://www.youtube.com/watch?v=" + this["Watch"]
+        if an_id in marker_id:
+            astr = youtube_minutes(marker_id[an_id])
+            watch += f"&t={astr}"
         this["Watch"] = watch
         print(item)
         res.append(
@@ -86,6 +103,18 @@ def dump_out(fdout, seq):
         fdout.write(there + "\n")
 
 
+def youtube_minutes(astr:str) -> str:
+    """ Returns 12m56s if input 'astr' has a colon (e.g. 12:56)
+    """
+    assert isinstance(astr, str)
+    if ":" not in astr:
+        return astr
+    spl = astr.split(":", maxsplit=2)
+    if len(spl) == 2:
+        return spl[0] + "m" + spl[1] + "s"
+    return spl[0] + "h" + spl[1] + "m" + spl[2] + "s"
+
+
 def get_db(debug=0) -> tuple:
     """ Open/ read database
     infos = {
@@ -94,7 +123,7 @@ def get_db(debug=0) -> tuple:
     }
     """
     dbx = jdba.database.Database("../vidlib", encoding=IO_ENCODING)
-    is_ok = dbx.valid_schema()
+    is_ok = dbx.valid_schema(debug=debug)
     dbx.index_all()
     my_dlist = dbx.table("sagas").dlist
     my_dlist.index.do_id_hash()

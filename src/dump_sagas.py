@@ -1,4 +1,4 @@
-# dump_sagas  (c)2022  Henrique Moreira
+# dump_sagas  (c)2022..2023  Henrique Moreira
 
 """ Interaction 'sagas'
 """
@@ -10,6 +10,8 @@ import jdba
 from copy import deepcopy
 
 IO_ENCODING = "ISO-8859-1"
+
+BASE_REL_DNAME = "../vidlib"
 
 
 def main():
@@ -136,7 +138,8 @@ def get_db(debug=0) -> tuple:
         "main-dlist": my_dlist,
     }
     """
-    dbx = jdba.database.Database("../vidlib", encoding=IO_ENCODING)
+    print("# Reading dir:", BASE_REL_DNAME)
+    dbx = jdba.database.Database(BASE_REL_DNAME, encoding=IO_ENCODING)
     is_ok = dbx.valid_schema(debug=debug)
     dbx.index_all()
     my_dlist = dbx.table("sagas").dlist
